@@ -3,19 +3,18 @@ import './App.css';
 
 const formReducer = (state, event) => {
     if(event.reset) {
-       return {
-            apple: '',
-            count: '',
-            name: '',
-            'gift-wrap': '',
-        }
-    }
-    return {
-        ...state,
-        [event.name]:event.value,
-    }
+     return {
+       apple: '',
+       count: 0,
+       name: '',
+       'gift-wrap': false,
+     }
    }
-  
+    return {
+      ...state,
+      [event.name]: event.value
+    }
+  }
   function App1() {
   
     const [formData, setFormData] = useReducer(formReducer, { count: 100});
@@ -25,6 +24,13 @@ const formReducer = (state, event) => {
     const handleSubmit = (e) => {
       e.preventDefault();
       setSubmitting(true);
+
+      setTimeout(() => {
+        setSubmitting(false);
+        setFormData({
+            reset: true
+        })
+      }, 3000)
     }
   
     const handleChange = (event) => {
@@ -49,7 +55,7 @@ const formReducer = (state, event) => {
         </div>
         }
        <form action="submit" onSubmit={handleSubmit}>
-         <fieldset>
+         <fieldset disabled={submitting}>
             <label>
               <p>Name</p>
               <input 
@@ -61,15 +67,15 @@ const formReducer = (state, event) => {
               />
             </label>
          </fieldset>
-         <fieldset>
+         <fieldset disabled={submitting}>
            <label>
              <p>Apples</p>
              <select 
-                name="apples" 
+                name="apple" 
                 onChange={handleChange} 
-                id="appleSelect"
                 value={formData.apple || ''}
              >
+               <option value=''>--Please choose an option--</option>
                <option value="Red">Red</option>
                <option value="Green">Green</option>
                <option value="Fuji">Fuji</option>
@@ -82,10 +88,15 @@ const formReducer = (state, event) => {
            </label>
            <label>
              <p>Gift Wrap</p>
-             <input type="checkbox" name="gift-wrap" id="giftWrap" onChange={handleChange} value={formData['gift-wrap'] || false} />
+             <input 
+                type="checkbox" 
+                name="gift-wrap" 
+                onChange={handleChange}
+                disabled={formData.apple !== 'Fuji'} 
+                value={formData['gift-wrap'] || false} />
            </label>
          </fieldset>
-         <button type="submit">Submit</button>
+         <button type="submit" disabled={submitting}>Submit</button>
        </form>
       </div>
     );

@@ -1,3 +1,28 @@
 .App {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.information-wrapper {
+  position: relative;
+}
+
+.information {
+  background-color: transparent;
+  color: blue;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.popup {
+  background-color: #fff;
+  padding: 1rem;
+  position: absolute;
+  top: -150px;
+  border: 2px solid #888;
+  left: 0;
 }
