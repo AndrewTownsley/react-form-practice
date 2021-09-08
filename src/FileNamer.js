@@ -14,12 +14,16 @@ const FileNamer = () => {
         setAlert(false)
     }
 
+    // When the alert state changes, add or remove the alert state to add or remove the popup for the input validation.  If the alert state is "true", add the event listener.  If the alert state is "false", remove the event listener.  These event listeners are added and removed dynamically to ensure that this useEffect hook does not run too many times.  This is a concern because the component may render multiple times, and it is unnecessary to run the useEffect hook every time.
+
     useEffect(() => {
         const handleWindowClick = () => setAlert(false)
         if(alert) {
             window.addEventListener('click', handleWindowClick)
+            window.addEventListener('keydown', handleWindowClick)
         } else {
             window.removeEventListener('click', handleWindowClick)
+            window.removeEventListener('keydown', handleWindowClick)
         }
         return () => window.removeEventListener('click', handleWindowClick)
     }, [alert, setAlert])
